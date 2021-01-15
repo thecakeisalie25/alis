@@ -256,7 +256,7 @@ function init_log() {
         exec > >(tee -a $LOG_FILE)
         exec 2> >(tee -a $LOG_FILE >&2)
     fi
-    set -o xtrace
+    # set -o xtrace # NO, JESUS CHRIST NO.
 }
 
 function facts() {
