@@ -1807,6 +1807,13 @@ function main() {
     fi
     execute_step "systemd_units" "${STEPS}"
     execute_step "end" "${STEPS}"
+
+    #Additional steps by typecasto
+    # echo "Now run /alis/alis-packages.sh"
+    # mkdir /mnt/alis
+    # cp * /mnt/alis
+    # arch-chroot /mnt
+    # rm -rf /mnt/alis
 }
 
 main $@
