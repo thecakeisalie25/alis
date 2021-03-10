@@ -35,6 +35,7 @@ set -e
 
 # Usage:
 # # loadkeys es
+# # iwctl --passphrase "[WIFI_KEY]" station [WIFI_INTERFACE] connect "[WIFI_ESSID]"          # (Optional) Connect to WIFI network. _ip link show_ to know WIFI_INTERFACE.
 # # curl https://raw.githubusercontent.com/picodotdev/alis/master/download.sh | bash, curl https://raw.githubusercontent.com/picodotdev/alis/master/download.sh | bash -s -- -u [github user], or with URL shortener curl -sL https://bit.ly/2F3CATp | bash
 # # vim alis.conf
 # # ./alis.sh
@@ -1684,24 +1685,45 @@ function pacman_install() {
 }
 
 function copy_logs() {
+    ESCAPED_LUKS_PASWORD=$(echo "${LUKS_PASSWORD}" | sed 's/[.[\*^$()+?{|]/[\\&]/g')
+    ESCAPED_ROOT_PASWORD=$(echo "${ROOT_PASWORD}" | sed 's/[.[\*^$()+?{|]/[\\&]/g')
+    ESCAPED_USER_PASWORD=$(echo "${USER_PASWORD}" | sed 's/[.[\*^$()+?{|]/[\\&]/g')
+
     if [ -f "$CONF_FILE" ]; then
+        SOURCE_FILE="$CONF_FILE"
+        FILE="/mnt/var/log/alis/$CONF_FILE"
+
         mkdir -p /mnt/var/log/alis
-        cp "$CONF_FILE" "/mnt/var/log/alis/$CONF_FILE"
-        sed -i 's/LUKS_PASSWORD=.*/LUKS_PASSWORD="ask"/' "/mnt/var/log/alis/$CONF_FILE"
-        sed -i 's/LUKS_PASSWORD_RETYPE=.*/LUKS_PASSWORD_RETYPE="ask"/' "/mnt/var/log/alis/$CONF_FILE"
-        sed -i 's/ROOT_PASSWORD=.*/ROOT_PASSWORD="ask"/' "/mnt/var/log/alis/$CONF_FILE"
-        sed -i 's/ROOT_PASSWORD_RETYPE=.*/ROOT_PASSWORD_RETYPE="ask"/' "/mnt/var/log/alis/$CONF_FILE"
-        sed -i 's/USER_PASSWORD=.*/USER_PASSWORD="ask"/' "/mnt/var/log/alis/$CONF_FILE"
-        sed -i 's/USER_PASSWORD_RETYPE=.*/USER_PASSWORD_RETYPE="ask"/' "/mnt/var/log/alis/$CONF_FILE"
-        sed -i 's/ADDITIONAL_USERS=.*"/ADDITIONAL_USERS=()/' "/mnt/var/log/alis/$CONF_FILE"
+        cp "$SOURCE_FILE" "$FILE"
+        chown root:root "$FILE"
+        chmod 600 "$FILE"
+        sed -i "s/${ESCAPED_LUKS_PASWORD}/******/g" "$FILE"
+        sed -i "s/${ESCAPED_ROOT_PASWORD}/******/g" "$FILE"
+        sed -i "s/${ESCAPED_USER_PASWORD}/******/g" "$FILE"
     fi
     if [ -f "$LOG_FILE" ]; then
+        SOURCE_FILE="$LOG_FILE"
+        FILE="/mnt/var/log/alis/$LOG_FILE"
+
         mkdir -p /mnt/var/log/alis
-        cp "$LOG_FILE" "/mnt/var/log/alis/$LOG_FILE"
+        cp "$SOURCE_FILE" "$FILE"
+        chown root:root "$FILE"
+        chmod 600 "$FILE"
+        sed -i "s/${ESCAPED_LUKS_PASWORD}/******/g" "$FILE"
+        sed -i "s/${ESCAPED_ROOT_PASWORD}/******/g" "$FILE"
+        sed -i "s/${ESCAPED_USER_PASWORD}/******/g" "$FILE"
     fi
     if [ -f "$ASCIINEMA_FILE" ]; then
+        SOURCE_FILE="$ASCIINEMA_FILE"
+        FILE="/mnt/var/log/alis/$ASCIINEMA_FILE"
+
         mkdir -p /mnt/var/log/alis
-        cp "$ASCIINEMA_FILE" "/mnt/var/log/alis/$ASCIINEMA_FILE"
+        cp "$SOURCE_FILE" "$FILE"
+        chown root:root "$FILE"
+        chmod 600 "$FILE"
+        sed -i "s/${ESCAPED_LUKS_PASWORD}/******/g" "$FILE"
+        sed -i "s/${ESCAPED_ROOT_PASWORD}/******/g" "$FILE"
+        sed -i "s/${ESCAPED_USER_PASWORD}/******/g" "$FILE"
     fi
 }
 

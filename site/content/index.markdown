@@ -16,7 +16,7 @@ url: "/"
           Boot. Get. Configure. Install. Enjoy.
         </h2>
         <p class="has-text-centered">
-          <a class="button cta primary-btn raised" href="#installation">
+          <a class="button cta primary-btn raised" href="#system-installation">
             How to install
           </a>
           <a class="button cta primary-btn raised" href="#video">
@@ -158,6 +158,7 @@ url: "/"
 {{< highlight bash "" >}}
 #                         # Start the system with latest Arch Linux installation media
 # loadkeys [keymap]       # Load keyboard keymap, eg. loadkeys es, loadkeys us, loadkeys de
+# iwctl --passphrase "[WIFI_KEY]" station [WIFI_INTERFACE] connect "[WIFI_ESSID]"          # (Optional) Connect to WIFI network. _ip link show_ to know WIFI_INTERFACE.
 # curl -sL https://raw.githubusercontent.com/picodotdev/alis/master/download.sh | bash     # Download alis scripts
 # # curl -sL https://bit.ly/2F3CATp | bash                                                 # Alternative download URL with URL shortener
 # ./alis-asciinema.sh     # (Optional) Start asciinema video recording
@@ -218,6 +219,7 @@ url: "/"
 {{< highlight bash "" >}}
 #                                  # Start the system with latest Arch Linux installation media
 # loadkeys [keymap]                # Load keyboard keymap, eg. loadkeys es, loadkeys us, loadkeys de
+# iwctl --passphrase "[WIFI_KEY]" station [WIFI_INTERFACE] connect "[WIFI_ESSID]"          # (Optional) Connect to WIFI network. _ip link show_ to know WIFI_INTERFACE.
 # curl -sL https://raw.githubusercontent.com/picodotdev/alis/master/download.sh | bash     # Download alis scripts
 # # curl -sL https://bit.ly/2F3CATp | bash                                                 # Alternative download URL with URL shortener
 # ./alis-recovery-asciinema.sh     # (Optional) Start asciinema video recording
