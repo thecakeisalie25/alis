@@ -1,5 +1,9 @@
 # alis
 
+![Arch Linux](https://img.shields.io/badge/-ArchLinux-black?logo=arch-linux)
+![Bash](https://img.shields.io/badge/sh-bash-black)
+[![Donate](https://img.shields.io/badge/-Donate-yellow?logo=paypal)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=3PF47D5TSNL7C&currency_code=EUR)
+
 Arch Linux Install Script (or alis) installs unattended, automated and customized Arch Linux system.
 
 It is a simple bash script that fully automates the installation of a Arch Linux system after booting from the original Arch Linux installation media. It contains the same commands that you would type and execute one by one interactively to complete the installation. The only user intervention needed is to edit a configuration file to choose the installation options and preferences from partitioning, to encryption, bootloader, file system, language and keyboard mapping, desktop environment, kernels, packages to install and graphic drivers. This automation makes the installation easy and fast.
@@ -73,7 +77,7 @@ If you find useful this script, you can support me with a [small donation](https
 * **Arch Linux** common and custom **packages installation**
 * Flatpak utility installation and **Flatpak packages installation**
 * SDKMAN utility installation and **SDKMAN packages installation**
-* **AUR utility** installation (yay, aurman) and **AUR packages installation**
+* **AUR utility** installation (paru, yay, aurman) and **AUR packages installation**
 * **Packages installation after base system installation** (preferred way of packages installation)
 * Script for download installation and **recovery scripts** and configuration files
 * **Retry packages download** on connection/mirror error
@@ -171,7 +175,7 @@ $ ./alis-packer.sh -c alis-packer-efi-ext4-grub-xfce.sh
 
 ### Video
 
-[![asciicast](https://asciinema.org/a/192880.png)](https://asciinema.org/a/192880)
+[![asciicast](https://asciinema.org/a/418524.png)](https://asciinema.org/a/418524)
 
 ### Arch Linux Installation Media
 

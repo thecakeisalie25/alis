@@ -657,12 +657,12 @@ function install() {
     fi
 
     sed -i 's/#Color/Color/' /etc/pacman.conf
-    sed -i 's/#TotalDownload/TotalDownload/' /etc/pacman.conf
+    sed -i 's/#ParallelDownloads/ParallelDownloads/' /etc/pacman.conf
 
     pacstrap /mnt base base-devel linux linux-firmware
 
     sed -i 's/#Color/Color/' /mnt/etc/pacman.conf
-    sed -i 's/#TotalDownload/TotalDownload/' /mnt/etc/pacman.conf
+    sed -i 's/#ParallelDownloads/ParallelDownloads/' /mnt/etc/pacman.conf
 
     if [ "$PACKAGES_MULTILIB" == "true" ]; then
         echo "" >> /mnt/etc/pacman.conf
@@ -1220,7 +1220,7 @@ function bootloader_grub() {
 }
 
 function bootloader_refind() {
-    pacman_install "refind-efi"
+    pacman_install "refind"
     arch-chroot /mnt refind-install
 
     arch-chroot /mnt rm /boot/refind_linux.conf
@@ -1685,9 +1685,9 @@ function pacman_install() {
 }
 
 function copy_logs() {
-    ESCAPED_LUKS_PASWORD=$(echo "${LUKS_PASSWORD}" | sed 's/[.[\*^$()+?{|]/[\\&]/g')
-    ESCAPED_ROOT_PASWORD=$(echo "${ROOT_PASWORD}" | sed 's/[.[\*^$()+?{|]/[\\&]/g')
-    ESCAPED_USER_PASWORD=$(echo "${USER_PASWORD}" | sed 's/[.[\*^$()+?{|]/[\\&]/g')
+    ESCAPED_LUKS_PASSWORD=$(echo "${LUKS_PASSWORD}" | sed 's/[.[\*^$()+?{|]/[\\&]/g')
+    ESCAPED_ROOT_PASSWORD=$(echo "${ROOT_PASSWORD}" | sed 's/[.[\*^$()+?{|]/[\\&]/g')
+    ESCAPED_USER_PASSWORD=$(echo "${USER_PASSWORD}" | sed 's/[.[\*^$()+?{|]/[\\&]/g')
 
     if [ -f "$CONF_FILE" ]; then
         SOURCE_FILE="$CONF_FILE"
@@ -1697,9 +1697,15 @@ function copy_logs() {
         cp "$SOURCE_FILE" "$FILE"
         chown root:root "$FILE"
         chmod 600 "$FILE"
-        sed -i "s/${ESCAPED_LUKS_PASWORD}/******/g" "$FILE"
-        sed -i "s/${ESCAPED_ROOT_PASWORD}/******/g" "$FILE"
-        sed -i "s/${ESCAPED_USER_PASWORD}/******/g" "$FILE"
+        if [ -n "$ESCAPED_LUKS_PASSWORD" ]; then
+            sed -i "s/${ESCAPED_LUKS_PASSWORD}/******/g" "$FILE"
+        fi
+        if [ -n "$ESCAPED_ROOT_PASSWORD" ]; then
+            sed -i "s/${ESCAPED_ROOT_PASSWORD}/******/g" "$FILE"
+        fi
+        if [ -n "$ESCAPED_USER_PASSWORD" ]; then
+            sed -i "s/${ESCAPED_USER_PASSWORD}/******/g" "$FILE"
+        fi
     fi
     if [ -f "$LOG_FILE" ]; then
         SOURCE_FILE="$LOG_FILE"
@@ -1709,9 +1715,15 @@ function copy_logs() {
         cp "$SOURCE_FILE" "$FILE"
         chown root:root "$FILE"
         chmod 600 "$FILE"
-        sed -i "s/${ESCAPED_LUKS_PASWORD}/******/g" "$FILE"
-        sed -i "s/${ESCAPED_ROOT_PASWORD}/******/g" "$FILE"
-        sed -i "s/${ESCAPED_USER_PASWORD}/******/g" "$FILE"
+        if [ -n "$ESCAPED_LUKS_PASSWORD" ]; then
+            sed -i "s/${ESCAPED_LUKS_PASSWORD}/******/g" "$FILE"
+        fi
+        if [ -n "$ESCAPED_ROOT_PASSWORD" ]; then
+            sed -i "s/${ESCAPED_ROOT_PASSWORD}/******/g" "$FILE"
+        fi
+        if [ -n "$ESCAPED_USER_PASWORD" ]; then
+            sed -i "s/${ESCAPED_USER_PASSWORD}/******/g" "$FILE"
+        fi
     fi
     if [ -f "$ASCIINEMA_FILE" ]; then
         SOURCE_FILE="$ASCIINEMA_FILE"
@@ -1721,9 +1733,15 @@ function copy_logs() {
         cp "$SOURCE_FILE" "$FILE"
         chown root:root "$FILE"
         chmod 600 "$FILE"
-        sed -i "s/${ESCAPED_LUKS_PASWORD}/******/g" "$FILE"
-        sed -i "s/${ESCAPED_ROOT_PASWORD}/******/g" "$FILE"
-        sed -i "s/${ESCAPED_USER_PASWORD}/******/g" "$FILE"
+        if [ -n "$ESCAPED_LUKS_PASSWORD" ]; then
+            sed -i "s/${ESCAPED_LUKS_PASSWORD}/******/g" "$FILE"
+        fi
+        if [ -n "$ESCAPED_ROOT_PASSWORD" ]; then
+            sed -i "s/${ESCAPED_ROOT_PASSWORD}/******/g" "$FILE"
+        fi
+        if [ -n "$ESCAPED_USER_PASSWORD" ]; then
+            sed -i "s/${ESCAPED_USER_PASSWORD}/******/g" "$FILE"
+        fi
     fi
 }
 
